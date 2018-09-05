@@ -1,0 +1,55 @@
+<template>
+    <style>
+      #pro{
+  user-select:none;
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
+  -o-user-select:none;
+  pointer-events:none;
+  margin-left:auto;
+  margin-right:auto;
+}
+    </style>
+    <div id="pro"></div>
+  </template>
+  <script>
+      //Web-component.js
+
+const curDoc = document.currentScript.ownerDocument;
+
+class proImg extends HTMLElement {
+  constructor() {
+    super();
+  }
+
+  connectedCallback() {
+    const shadowRoot = this.attachShadow({mode:'open'});
+    const template = curDoc.querySelector("template");
+    const instance = template.content.cloneNode(true);
+    shadowRoot.appendChild(instance);
+    
+    const imgSrc = this.getAttribute("src");
+    this.render(imgSrc);
+
+  }
+
+  render(link) {
+    let div = this.shadowRoot.querySelector("#pro");
+    div.style.background = "#333"
+    var img = new Image();
+    img.onload = function () {
+      var w = img.naturalWidth/2;
+      var h = img.naturalHeight/2;
+      div.style.width = `${w}px`;
+      div.style.height = `${h}px`;
+      div.style.background = `url('${link}') no-repeat`;
+      div.style.backgroundSize = "cover";
+    };
+    img.src = `${link}`;
+  }
+
+}
+
+window.customElements.define("pro-img",proImg);
+    </script>
